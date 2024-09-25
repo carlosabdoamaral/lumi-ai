@@ -1,0 +1,5 @@
+cd lumi
+pnpm install
+pnpm format
+pnpm dev
+

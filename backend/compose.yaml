@@ -1,0 +1,30 @@
+services:
+  prometheus:
+    image: 'prom/prometheus:latest'
+    volumes:
+      - './src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    networks:
+      - internal
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: lumi
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/migration:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
+    networks:
+      - internal
+
+volumes:
+  postgres_data:
+
+networks:
+  internal:
+    driver: bridge
